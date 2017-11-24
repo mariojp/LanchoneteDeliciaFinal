@@ -24,7 +24,7 @@
         android:textSize="@dimen/title_size" />
 
     <ListView
-        android:id="@+id/list_view_candy"
+        android:id="@+id/list_view_produtos"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/activity_padding" />
