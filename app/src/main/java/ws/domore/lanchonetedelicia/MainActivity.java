@@ -92,28 +92,39 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, String responseString) {
                         Log.d("AsyncHttpClient", "onSuccess response = " + responseString);
+
                         Gson gson = new GsonBuilder().create();
                         produtos = gson.fromJson(responseString, Produto[].class);
 
+
+
                         addProdutoToDB(produtos);
 
-                        SQLiteDatabase db = produtoDbHelper.getWritableDatabase();
+                        SQLiteDatabase db = produtoDbHelper.getReadableDatabase();
                         Cursor cursor = db.rawQuery("SELECT * FROM produto", null);
                         adapter.changeCursor(cursor);
+
                     }
                 });
     }
 
     private void addProdutoToDB(Produto[] produtos) {
         SQLiteDatabase db = produtoDbHelper.getWritableDatabase();
-        for(Produto p : produtos){
-            ContentValues values = new ContentValues();
-            values.put(ProdutoEntry.COLUNA_NOME_NOME, p.getNome());
-            values.put(ProdutoEntry.COLUNA_NOME_PRECO, p.getPreco());
-            values.put(ProdutoEntry.COLUNA_NOME_DESCRICAO, p.getDescricao());
-            values.put(ProdutoEntry.COLUNA_NOME_IMAGEM, p.getImagem());
-            db.insert(ProdutoEntry.TABELA_NOME, null, values);
 
+
+        for(Produto p : produtos){
+
+            //Consulto se já existe produto com este nome poderia ser outro criterio
+            Cursor c = db.rawQuery("SELECT * FROM produto where nome=?", new String[]{p.getNome()});
+            //se não existe grava
+            if(!c.moveToFirst()) {
+                ContentValues values = new ContentValues();
+                values.put(ProdutoEntry.COLUNA_NOME_NOME, p.getNome());
+                values.put(ProdutoEntry.COLUNA_NOME_PRECO, p.getPreco());
+                values.put(ProdutoEntry.COLUNA_NOME_DESCRICAO, p.getDescricao());
+                values.put(ProdutoEntry.COLUNA_NOME_IMAGEM, p.getImagem());
+                db.insert(ProdutoEntry.TABELA_NOME, null, values);
+            }
         }
     }
 

@@ -26,4 +26,10 @@ public class ProdutoDbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(ProdutoContract.SQL_DELETE_ENTRIES);
         onCreate(sqLiteDatabase);
     }
+
+
+    @Override
+    public void onDowngrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
+        sqLiteDatabase.execSQL(ProdutoContract.SQL_DELETE_ENTRIES);
+        onCreate(sqLiteDatabase);    }
 }

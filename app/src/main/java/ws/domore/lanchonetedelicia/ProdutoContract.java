@@ -9,7 +9,7 @@ import android.provider.BaseColumns;
 public class ProdutoContract {
 
     public static final String DB_NOME = "produto.db";
-    public static final int DB_VERSAO = 1;
+    public static final int DB_VERSAO = 2;
     public static final String SQL_CREATE_ENTRIES = "CREATE TABLE " +
             ProdutoEntry.TABELA_NOME + " (" +
             ProdutoEntry._ID + " INTEGER PRIMARY KEY," +
